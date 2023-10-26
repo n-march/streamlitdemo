@@ -73,3 +73,19 @@ for term in search_terms:
             st.write(f"File: {excel}")
             for content in temp_df[temp_df['key'].str.contains(term, case=False)]['content']:
                 st.write(content)
+
+
+st.write(f"Files containing '{term}':")
+
+# Create an empty list to hold the rows of the table
+table_data = []
+
+# Filter the all_dfs DataFrame based on the term
+filtered_df = all_dfs[all_dfs['key'].str.contains(term, case=False)]
+
+for _, row in filtered_df.iterrows():
+    table_data.append([row['file_name'], row['content']])
+
+# Convert the list of rows to a DataFrame and display as a table
+df_to_display = pd.DataFrame(table_data, columns=['File Name', 'Content'])
+st.table(df_to_display)
