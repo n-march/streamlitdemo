@@ -40,3 +40,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+search_terms = ["term1", "term2", "term3"]
+file_count_dict = {term: 0 for term in search_terms}
+
+for excel, temp_df in dfs.items():
+    for term in search_terms:
+        if temp_df['key'].str.contains(term, case=False).any():
+            file_count_dict[term] += 1
+
+st.write(file_count_dict)
