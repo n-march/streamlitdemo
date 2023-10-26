@@ -50,3 +50,26 @@ for excel, temp_df in dfs.items():
             file_count_dict[term] += 1
 
 st.write(file_count_dict)
+
+import streamlit as st
+
+# Assuming you already have your dfs dictionary and file_count_dict from previous steps
+
+# Total number of unique files in the dataset
+total_files = len(dfs)
+
+for term in search_terms:
+    # Display section title for the term
+    st.subheader(f"Statistics for '{term}':")
+
+    # 1. Calculate and display the metric
+    percent_files = (file_count_dict[term] / total_files) * 100
+    st.metric(label="# of docs containing term", value=f"{percent_files:.2f}%", delta=None)
+
+    # 2. List the file names and content for files containing the term
+    st.write(f"Files containing '{term}':")
+    for excel, temp_df in dfs.items():
+        if temp_df['key'].str.contains(term, case=False).any():
+            st.write(f"File: {excel}")
+            for content in temp_df[temp_df['key'].str.contains(term, case=False)]['content']:
+                st.write(content)
